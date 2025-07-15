@@ -1,34 +1,27 @@
 MODULE MainModule
-    !WOBJDATA
-    PERS wobjdata wobjPr := [FALSE,TRUE,"",[[1000,0,0],[1,0,0,0]],[[0,0,0],[1,0,0,0]]]; !Wobj utilizado en tarima. WobjPallet
-    PERS wobjdata WobjOrientacionCamaPar   := [FALSE, TRUE, "", [[1000,0,0], [0,0,0,1]], [[0,0,0], [1,0,0,0]]]; !Gira 180 grados actualmente.
-    PERS wobjdata WobjOrientacionCamaImpar := [FALSE,TRUE,"",[[1000,0,0],[1,0,0,0]],[[0,0,0],[1,0,0,0]]]; 
-    
-    !TOOLDATA
+    PERS wobjdata wobjPr; !Wobj utilizado en tarima. WobjPallet
+    PERS wobjdata WobjOrientacionCamaPar:= [FALSE, TRUE, "", [[1000, 0, 80], [1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
+    PERS wobjdata WobjOrientacionCamaImpar := [FALSE, TRUE, "", [[985.067, -403.231, -565.618], [1.40548E-05,-0.707105,-0.707108,4.14977E-05]], [[0,0,0],[1,0,0,0]]]; !No gira, mantiene la orientacion normal.
+
+    !TOOLDATA                                                                                                                                                                    
     PERS tooldata BoxUp:=[TRUE,[[0,0,630],[1,0,0,0]],[28.7,[6.3,-16.5,263.1],[1,0,0,0],3.887,2.517,1.945]];
-    PERS tooldata ToolActual;
-    
-    !ROBTARGET
-    !en uso
-	CONST robtarget home:=[[767.82,13.97,1095.99],[0.010881,0.00170795,0.999899,0.00902226],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
-    !CONST robtarget home:=[[1883.42,-0.08,2161.57],[0.88363,3.14412E-05,0.468186,3.86289E-05],[-1,-1,0,1],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
-    CONST robtarget acercarAgarrar:=[[780.17,14.00,939.87],[0.0104653,0.00171875,0.999903,0.00902621],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
-    !CONST robtarget acercarAgarrar:=[[-135.30,100.14,941.73],[0.000810219,0.00717897,-0.999949,-0.00703556],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+    TASK PERS tooldata BoxUpVentosas:=[TRUE,[[0,0,630],[1,0,0,0]],[29.9,[4.9,-16.3,301.3],[1,0,0,0],6.163,4.176,2.427]];
+    PERS tooldata ToolActual;                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                           
+    !en uso                                                                                                                                                                      
+	CONST robtarget home:=[[767.82,13.97,1095.99],[0.010881,0.00170795,0.999899,0.00902226],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];                                    
+    CONST robtarget home1:=[[767.82,13.97,1095.99],[0.000302394,0.00698494,-0.999976,-0.000184941],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];                               
+    CONST robtarget acercarAgarrar:=[[780.17,14.00,939.87],[0.0104653,0.00171875,0.999903,0.00902621],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];                          
     CONST robtarget agarrar:=[[780.18,14.02,127.79],[0.0104876,0.00171902,0.999903,0.00903588],[0,0,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
-    !CONST robtarget agarrar:=[[-135.29,100.13,242.70],[0.00080398,0.00717411,-0.999949,-0.00702877],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
     
     VAR robtarget dejar:=[[0,0,0],[0.000302394,0.00698494,-0.999976,-0.000184941],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
-    !VAR robtarget dejar:=[[0,0,0],[0.851451,-0.000185982,0.524418,0.00424293],[0,0,0,1],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
     VAR robtarget dejarVertical:=[[0,0,0],[0.000807693,0.7168,0.697143,0.013762],[0,0,1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
-    !VAR robtarget dejarVertical:=[[0,0,0],[0.00616651,0.710285,0.703848,0.00742684],[0,0,1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
     VAR robtarget dejarHorizontal:=[[0,0,0],[0.0104383,0.00174317,0.999903,0.00903741],[0,0,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];  
-    !VAR robtarget dejarHorizontal:=[[0,0,0],[0.000726344,0.00714883,-0.999949,-0.00704662],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
     
     !prueba
     CONST robtarget prueba := [[37.96,81.45,164.04],[0.000726344,0.00714883,-0.999949,-0.00704662],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]; !DEJAR HORIZONTAL.
     CONST robtarget p20    := [[169.02,14.01,255.24],[0.000807693,0.7168,0.697143,0.013762],[0,0,1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]; !DEJAR VERTICAL.
     CONST robtarget p10    := [[169.09,14.01,255.31],[0.0104383,0.00174317,0.999903,0.00903741],[0,0,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];  
-    !CONST robtarget p10   := [[454.93,12.04,873.15],[0.853939,-0.00966159,0.520262,-0.00477048],[0,-1,-1,1],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
     
     !Configuraciones de velocidad y z de los movimientos.
     VAR num velBase := 0;  !Velocidad tope maxima que hara el robot.
@@ -83,6 +76,14 @@ MODULE MainModule
     VAR string txtPesoCaja;
     VAR string txtToolSelec;
     
+    VAR num pallet;
+    
+    TASK PERS wobjdata wobjImpar:=[FALSE,TRUE,"",[[1051.05,-429.223,-565.796],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
+    TASK PERS wobjdata wobjPar:=[FALSE,TRUE,"",[[1898.64,255.881,-602.644],[5.37631E-05,-3.57543E-05,-8.801E-05,-1]],[[0,0,0],[1,0,0,0]]];
+    
+    TASK PERS wobjdata IzquierdawobjCamaImpar:=[FALSE,TRUE,"",[[1051.05,-429.223,-565.796],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
+    TASK PERS wobjdata IzquierdawobjCamaPar:=[FALSE,TRUE,"",[[1051.05,-429.223,-565.796],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
+    
 !------------------------------------------------------------------------
                                                                          !------------------------------------------------------------------------
     PROC Main()
@@ -99,15 +100,22 @@ MODULE MainModule
     
     PROC LeerParametros()
         !Parametros de caja.
-        anchoCaja := GInput (REM_PRODUCTO_DIMENSION_Y)/10;                               
-        largoCaja := GInput (REM_PRODUCTO_DIMENSION_X)/10;                               
-        altoCaja  := GInput (REM_PRODUCTO_DIMENSION_Z)/10; 
+        anchoCaja := GInput (REM_PRODUCTO_DIMENSION_Y);!/10;                               
+        largoCaja := GInput (REM_PRODUCTO_DIMENSION_X);!/10;                               
+        altoCaja  := GInput (REM_PRODUCTO_DIMENSION_Z);!/10;
         pesoCaja  := GInput (REM_PRODUCTO_PESO);
         
         !Parametros de tarima.
-        anchoTarima := GInput (REM_TARIMA_DIMENSION_Y)/10;                              
-        largoTarima := GInput (REM_TARIMA_DIMENSION_X)/10;                           
-        altoTarima  := GInput (REM_TARIMA_DIMENSION_Z)/10;  
+        anchoTarima := GInput (REM_TARIMA_DIMENSION_Y)/10;                             
+        largoTarima := GInput (REM_TARIMA_DIMENSION_X)/10;                       
+        altoTarima  := GInput (REM_TARIMA_DIMENSION_Z)/10; 
+        
+        !490 = Distancia base de robot a tarima en X,      !650= distancia base de robot a tarima en Y,            -834=Distancia entre base del robot y piso.
+        WobjOrientacionCamaPar   := [FALSE, TRUE, "", [[490 + largoTarima, 650, altoTarima - 834.93], [5.37631E-05,-3.57543E-05,-8.801E-05,-1]],[[0,0,0],[1,0,0,0]]];  
+        WobjOrientacionCamaImpar := [FALSE,TRUE,"",[[490 , 650 + anchoTarima , altoTarima  - 834.93],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
+        
+        IzquierdawobjCamaPar   := [FALSE, TRUE, "", [[-490 + largoTarima, -650, altoTarima - 834.93], [5.37631E-05,-3.57543E-05,-8.801E-05,-1]],[[0,0,0],[1,0,0,0]]];
+        IzquierdawobjCamaImpar := [FALSE,TRUE,"",[[-490 , -650 + anchoTarima , altoTarima  - 834.93],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
         
         !Parametros de inicio
         contadorCama  := GInput (REM_CAMA_INICIAL);                              !Recibe cama por la cual iniciar el paletizado.
@@ -118,9 +126,12 @@ MODULE MainModule
         SetGO ABB_CONTADOR_PRODUCTO, contadorCaja;                               !Enviar retroalimentacion a PLC.
         cajasTotales := GInput (REM_PRODUCTO_TOTALES_POR_CAMA);                  !Corresponde a las cajas totales por CAMA.
         
-        !IF modelo = 1 THEN
+        !tool := GInput (REM_TOOL);                                               !Obtenemos la herramienta en uso (con ventosas o sin ventosas)
+        IF REM_TOOL = 0 THEN                                                     !Cuando recibimos 0, se activara la herramienta SIN ventosas
             ToolActual := BoxUp;
-        !ENDIF
+        ELSEIF REM_TOOL = 1 THEN                                                 !Cuando recibimos 1, se activara la herramienta CON ventosas
+            ToolActual := BoxUpVentosas;
+        ENDIF
     ENDPROC
     
     PROC ActualizarParametros()
@@ -233,6 +244,19 @@ MODULE MainModule
         ELSEIF contadorCama MOD 2 > 0 THEN !Cuando la cama es impar
             wobjPr := WobjOrientacionCamaImpar;
         ENDIF 
+        
+!        TEST pallet 
+!        CASE 1: IF contadorCama MOD 2 = 0 THEN !Cuando la cama es par
+!                wobjPr := WobjOrientacionCamaPar;
+!                ELSEIF contadorCama MOD 2 > 0 THEN !Cuando la cama es impar
+!                wobjPr := WobjOrientacionCamaImpar;
+!                ENDIF
+!        CASE 0: IF contadorCama MOD 2 = 0 THEN !Cuando la cama es par
+!                wobjPr := IzquierdawobjCamaPar;
+!                ELSEIF contadorCama MOD 2 > 0 THEN !Cuando la cama es impar
+!                wobjPr := IzquierdawobjCamaImpar;
+!                ENDIF
+!        ENDTEST
     ENDPROC
     
     PROC Moverse()
@@ -267,6 +291,10 @@ MODULE MainModule
         SetGO ABB_CONTADOR_CAMAS, contadorCama;
         contadorCaja  := GInput (REM_PRODUCTO_INICIAL);
         SetGO ABB_CONTADOR_PRODUCTO, contadorCaja;
+        
+        !Reinicio de Wobj
+        WobjOrientacionCamaPar   := [FALSE, TRUE, "", [[0, 0, 0], [0,0,1,0]], [[0,0,0],[1,0,0,0]]];
+        WobjOrientacionCamaImpar := [FALSE,TRUE,"",[[0 , 0, 0],[1,0,0,0]],[[0,0,0],[1,0,0,0]]];
     ENDPROC
     
     PROC FinalizarPaletizado()

@@ -2,6 +2,11 @@
 <!--Comments: Settings for the FlexPendant.-->
 <FP>
   <USER name="">
+    <DATA id="ViewInManFull">
+      <PROP name="text" value="PARAM_TXT_VIEWINMANFULL" />
+      <PROP name="dll" value="" />
+      <PROP name="type" value="" />
+    </DATA>
     <DATA id="ViewInAuto">
       <PROP name="text" value="PARAM_TXT_VIEWINAUTO" />
       <PROP name="dll" value="TpsViewProductionWnd.dll" />
@@ -10,9 +15,6 @@
     <DATA id="IO View">
       <PROP name="Configurations file" value="/hd0a/4600-802877/INTERNAL/FPConfigurations.xml" />
       <PROP name="Signal view layout" value="Default" />
-    </DATA>
-    <DATA id="CtrlPnl Configuration">
-      <PROP name="LASTPATH" value="/hd0a/" />
     </DATA>
     <DATA id="UASViewLevel">
       <PROP name="text" value="PARAM_TXT_UASVIEWLEVEL" />
@@ -30,6 +32,9 @@
       <PROP name="dll" value="" />
       <PROP name="type" value="" />
     </DATA>
+    <DATA id="Backup Restore">
+      <PROP name="LastPath" value="/USB/" />
+    </DATA>
     <DATA id="Programmable Key_2">
       <PROP name="type" value="Output" />
       <PROP name="allowInAuto" value="No" />
@@ -41,23 +46,19 @@
       <PROP name="FilterString" value="" />
     </DATA>
     <DATA id="Program Editor">
-      <PROP name="HideDeclarations" value="False" />
+      <PROP name="HideDeclarations" value="True" />
       <PROP name="ShowOnlyServiceRoutines" value="True" />
       <PROP name="ProgramPath" value="ctrl:/hd0a/4600-802877/PTR_8x8_Cara_A/PTR_8x8_Cara_A/PTR_8x8_Cara_A/PTR_8x8_Cara_A/" />
       <PROP name="ModulePath" value="/USB/4600-802877_Backup_20240229/RAPID/TASK1/PROGMOD/" />
     </DATA>
     <DATA id="ABB.Robotics.Tps.FileExplorer.TpsViewFileExplorer">
-      <PROP name="LASTPATH" value="/USB/" />
-    </DATA>
-    <DATA id="UserSettings">
-      <PROP name="RapidEditorFontIndex" value="5" />
-      <PROP name="LoadFileFilterIndex" value="1" />
+      <PROP name="LASTPATH" value="/hd0a/4600-802877/HOME/" />
     </DATA>
     <DATA id="Show">
       <PROP name="default" value="CtrlName" />
     </DATA>
-    <DATA id="Backup Restore">
-      <PROP name="LastPath" value="/USB/" />
+    <DATA id="CtrlPnl Configuration">
+      <PROP name="LASTPATH" value="/hd0a/" />
     </DATA>
     <DATA id="ShowConfig">
       <PROP name="filter" value="" />
@@ -105,10 +106,9 @@
       <PROP name="pressed" value="SetTo0" />
       <PROP name="target" value="Local_IO_0_DO1" />
     </DATA>
-    <DATA id="ViewInManFull">
-      <PROP name="text" value="PARAM_TXT_VIEWINMANFULL" />
-      <PROP name="dll" value="" />
-      <PROP name="type" value="" />
+    <DATA id="UserSettings">
+      <PROP name="RapidEditorFontIndex" value="5" />
+      <PROP name="LoadFileFilterIndex" value="1" />
     </DATA>
   </USER>
 </FP>
