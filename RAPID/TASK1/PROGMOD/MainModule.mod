@@ -1,25 +1,35 @@
 MODULE MainModule
     PERS wobjdata wobjPr; !Wobj utilizado en tarima. WobjPallet
-    PERS wobjdata WobjOrientacionCamaPar:= [FALSE, TRUE, "", [[1000, 0, 80], [1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
-    PERS wobjdata WobjOrientacionCamaImpar := [FALSE, TRUE, "", [[985.067, -403.231, -565.618], [1.40548E-05,-0.707105,-0.707108,4.14977E-05]], [[0,0,0],[1,0,0,0]]]; !No gira, mantiene la orientacion normal.
+    PERS wobjdata WobjOrientacionCamaPar:= [FALSE, TRUE, "", [[612, -650, -825.93], [5.37631E-05,-3.57543E-05,-8.801E-05,-1]],[[0,0,0],[1,0,0,0]]];
+    PERS wobjdata WobjOrientacionCamaImpar := [FALSE, TRUE, "", [[490, -1850, -670], [1,-5.99539E-06,-9.11397E-07,1.37035E-05]], [[0,0,0],[1,0,0,0]]]; !No gira, mantiene la orientacion normal.
 
     !TOOLDATA                                                                                                                                                                    
     PERS tooldata BoxUp:=[TRUE,[[0,0,630],[1,0,0,0]],[28.7,[6.3,-16.5,263.1],[1,0,0,0],3.887,2.517,1.945]];
     TASK PERS tooldata BoxUpVentosas:=[TRUE,[[0,0,630],[1,0,0,0]],[29.9,[4.9,-16.3,301.3],[1,0,0,0],6.163,4.176,2.427]];
+
+    PERS tooldata BoxUpPar := [TRUE, [[0,0,630],[0,0,1,0]], [28.7, [6.3,-16.5,263.1], [0,0,1,0], 3.887, 2.517, 1.945]];
+    TASK PERS tooldata BoxUpVentosasPar:=[TRUE,[[0,0,630],[1,0,0,0]],[29.9,[4.9,-16.3,301.3],[1,0,0,0],6.163,4.176,2.427]];
+    
     PERS tooldata ToolActual;                                                                                                                                                    
                                                                                                                                                                                                                                                                                                                                            
     !en uso                                                                                                                                                                      
 	CONST robtarget home:=[[767.82,13.97,1095.99],[0.010881,0.00170795,0.999899,0.00902226],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];                                    
-    CONST robtarget home1:=[[767.82,13.97,1095.99],[0.000302394,0.00698494,-0.999976,-0.000184941],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];                               
-    CONST robtarget acercarAgarrar:=[[780.17,14.00,939.87],[0.0104653,0.00171875,0.999903,0.00902621],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];                          
-    CONST robtarget agarrar:=[[780.18,14.02,127.79],[0.0104876,0.00171902,0.999903,0.00903588],[0,0,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+    CONST robtarget home1:=[[1329.53,-19.92,818.13],[0.0137739,-0.6962,0.717715,-0.000665094],[-1,0,-2,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+    !CONST robtarget home1:=[[1329.53,-19.92,818.13],[0.00105563,0.713772,0.700238,0.0139541],[-1,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]; 18 JULIO 2025
+    CONST robtarget acercarAgarrar:=[[1231.28,-19.91,53.41],[0.00109975,0.713763,0.700247,0.0139874],[-1,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];                          
+    CONST robtarget agarrar:=[[1092.98,7.46,-97.49],[0.000384615,0.704569,-0.709632,-0.00226901],[0,0,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+    !CONST robtarget agarrar:=[[1329.57,-19.92,-233.52],[0.0010381,0.713778,0.700233,0.0139392],[-1,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]; 18 JULIO 2025
+    
     
     VAR robtarget dejar:=[[0,0,0],[0.000302394,0.00698494,-0.999976,-0.000184941],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
-    VAR robtarget dejarVertical:=[[0,0,0],[0.000807693,0.7168,0.697143,0.013762],[0,0,1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
-    VAR robtarget dejarHorizontal:=[[0,0,0],[0.0104383,0.00174317,0.999903,0.00903741],[0,0,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];  
+    !VAR robtarget dejarVertical:=[[0,0,0],[0.000807693,0.7168,0.697143,0.013762],[0,0,1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]; SE USARON PRIMERA VERSION 21-JULIO-25
+    !VAR robtarget dejarHorizontal:=[[0,0,0],[0.0104383,0.00174317,0.999903,0.00903741],[0,0,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];  SE USARON PRIMERA VERSION 21-JULIO-25
+    
+    VAR robtarget dejarVertical:=[[0,0,0],[0.0137939,-0.703933,0.710132,-0.0007531],[-1,0,-2,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+    VAR robtarget dejarHorizontal:=[[0,0,0],[0.0104383,0.00174317,0.999903,0.00903741],[0,0,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]; 
     
     !prueba
-    CONST robtarget prueba := [[37.96,81.45,164.04],[0.000726344,0.00714883,-0.999949,-0.00704662],[0,0,0,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]; !DEJAR HORIZONTAL.
+    CONST robtarget prueba := [[218.94,159.17,193.84],[0.0137939,-0.703933,0.710132,-0.0007531],[-1,0,-2,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
     CONST robtarget p20    := [[169.02,14.01,255.24],[0.000807693,0.7168,0.697143,0.013762],[0,0,1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]]; !DEJAR VERTICAL.
     CONST robtarget p10    := [[169.09,14.01,255.31],[0.0104383,0.00174317,0.999903,0.00903741],[0,0,-1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];  
     
@@ -77,12 +87,15 @@ MODULE MainModule
     VAR string txtToolSelec;
     
     VAR num pallet;
+    VAR num TOMAR := 1;
     
     TASK PERS wobjdata wobjImpar:=[FALSE,TRUE,"",[[1051.05,-429.223,-565.796],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
     TASK PERS wobjdata wobjPar:=[FALSE,TRUE,"",[[1898.64,255.881,-602.644],[5.37631E-05,-3.57543E-05,-8.801E-05,-1]],[[0,0,0],[1,0,0,0]]];
     
-    TASK PERS wobjdata IzquierdawobjCamaImpar:=[FALSE,TRUE,"",[[1051.05,-429.223,-565.796],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
-    TASK PERS wobjdata IzquierdawobjCamaPar:=[FALSE,TRUE,"",[[1051.05,-429.223,-565.796],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
+    TASK PERS wobjdata IzquierdawobjCamaImpar:=[FALSE,TRUE,"",[[-490,1852,-825.93],[1, -5.99539E-06, -9.11397E-07, 1.37035E-05]],[[0, 0, 0],[1, 0, 0, 0]]];
+    TASK PERS wobjdata IzquierdawobjCamaPar:=[FALSE,TRUE,"",[[-368,650,-825.93],[5.37631E-05,-3.57543E-05,-8.801E-05,-1]],[[0,0,0],[1,0,0,0]]];
+    CONST robtarget p30:=[[1304.18,659.07,-37.16],[0.0219537,-0.706848,-0.706236,-0.0333851],[0,0,1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
+    CONST robtarget p40:=[[1305.67,106.84,686.43],[0.0219522,-0.706853,-0.706232,-0.0333645],[0,0,1,0],[9E+09,9E+09,9E+09,9E+09,9E+09,9E+09]];
     
 !------------------------------------------------------------------------
                                                                          !------------------------------------------------------------------------
@@ -90,8 +103,11 @@ MODULE MainModule
         ReiniciarVariables;
         LeerParametros;                                                           !Obtiene parametros desde PLC.
         !ActualizarParametros;                                                    !Actualiza parametros de velocidad y carga dependiendo dimensiones y peso de caja.
+        MoveJ Home1, VSC, zSin, ToolActual, \WObj:= wobj0;
         WHILE contadorCama <= camaTotales DO
-            !TomarCaja;
+            IF TOMAR = 1 THEN
+            TomarCaja;
+            ENDIF
             Paletizar;
         ENDWHILE
         FinalizarPaletizado;                                                     !Reinicia variables y manda a home.
@@ -111,11 +127,11 @@ MODULE MainModule
         altoTarima  := GInput (REM_TARIMA_DIMENSION_Z)/10; 
         
         !490 = Distancia base de robot a tarima en X,      !650= distancia base de robot a tarima en Y,            -834=Distancia entre base del robot y piso.
-        WobjOrientacionCamaPar   := [FALSE, TRUE, "", [[490 + largoTarima, 650, altoTarima - 834.93], [5.37631E-05,-3.57543E-05,-8.801E-05,-1]],[[0,0,0],[1,0,0,0]]];  
-        WobjOrientacionCamaImpar := [FALSE,TRUE,"",[[490 , 650 + anchoTarima , altoTarima  - 834.93],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
+        WobjOrientacionCamaPar   := [FALSE, TRUE, "", [[490 + largoTarima, -650, altoTarima - 834.93], [5.37631E-05,-3.57543E-05,-8.801E-05,-1]],[[0,0,0],[1,0,0,0]]];  
+        WobjOrientacionCamaImpar := [FALSE,TRUE,"",[[490 , -1850 , -670],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
         
-        IzquierdawobjCamaPar   := [FALSE, TRUE, "", [[-490 + largoTarima, -650, altoTarima - 834.93], [5.37631E-05,-3.57543E-05,-8.801E-05,-1]],[[0,0,0],[1,0,0,0]]];
-        IzquierdawobjCamaImpar := [FALSE,TRUE,"",[[-490 , -650 + anchoTarima , altoTarima  - 834.93],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
+        IzquierdawobjCamaPar   := [FALSE, TRUE, "", [[-490 + largoTarima, 650, altoTarima - 834.93], [5.37631E-05,-3.57543E-05,-8.801E-05,-1]],[[0,0,0],[1,0,0,0]]];
+        IzquierdawobjCamaImpar := [FALSE,TRUE,"",[[-490 , 1750 + anchoTarima , altoTarima  - 834.93],[1,-5.99539E-06,-9.11397E-07,1.37035E-05]],[[0,0,0],[1,0,0,0]]];
         
         !Parametros de inicio
         contadorCama  := GInput (REM_CAMA_INICIAL);                              !Recibe cama por la cual iniciar el paletizado.
@@ -170,27 +186,36 @@ MODULE MainModule
     PROC TomarCaja()                                                                                                           
         TEST alturaActual <= alturaTotalPallet                                                                                       
             CASE alturaActual <= tercio1:                                                                                                 !--TEST que evalua la altura actual, dependiendo la altura, sube al tercio correspondiente
-            MoveJ Offs(acercarAgarrar, 0, 0, tercio1 + 200), VSC, zSin, ToolActual, \WObj:= wobj0;                                             !..del pallet completo. Se cambia la Z del offset con la variable del tercio correspondiente.
+            MoveJ Offs(agarrar, 0, 0, tercio1 + 200), VSC, zSin, ToolActual, \WObj:= wobj0;                                             !..del pallet completo. Se cambia la Z del offset con la variable del tercio correspondiente.
+            MoveL Offs(agarrar, 0, 0, tercio1 + 100), VSC, zSin, ToolActual, \WObj:= wobj0; 
+            !WaitDI REM_BOOL_GARRA_ABIERTA, 1; !Esperar confirmacion que garra este abierta
             MovimientosAgarrar;                                                                                                           !IMPORTANTE, no se estan evaluando rangos de tamaño del pallet, se evaluan solo los booleanos
-            MoveL Offs(acercarAgarrar, 0, 0, tercio1 + 200), VCC, zCon, ToolActual, \WObj:= wobj0;                                             !.. de cada caso.--
-                        
+            !WaitDI REM_BOOL_GARRA_CERRADA, 1; !Esperar confirmacion que garra esta cerrada
+            MoveL Offs(agarrar, 0, 0, tercio1 + 400), VCC, zCon, ToolActual, \WObj:= wobj0;                                             !.. de cada caso.--            
+            
             CASE alturaActual <= tercio2:
-            MoveJ Offs(acercarAgarrar, 0, 0, tercio2 + 200), VSC, zSin, ToolActual, \WObj:= wobj0;
-            MovimientosAgarrar;
-            MoveL Offs(acercarAgarrar, 0, 0, tercio2 + 200), VCC, zCon, ToolActual, \WObj:= wobj0;
+            MoveJ Offs(agarrar, 0, 0, tercio2 + 200), VSC, zSin, ToolActual, \WObj:= wobj0;
+            MoveL Offs(agarrar, 0, 0, tercio1 + 100), VSC, zSin, ToolActual, \WObj:= wobj0;
+            !WaitDI REM_BOOL_GARRA_ABIERTA, 1; !Esperar confirmacion que garra este abierta
+            MovimientosAgarrar;                                                                                                           !IMPORTANTE, no se estan evaluando rangos de tamaño del pallet, se evaluan solo los booleanos
+            !WaitDI REM_BOOL_GARRA_CERRADA, 1; !Esperar confirmacion que garra esta cerrada
+            MoveL Offs(agarrar, 0, 0, tercio2 + 200), VCC, zCon, ToolActual, \WObj:= wobj0;
             
             CASE alturaActual <=tercio3:
-            MoveJ Offs(acercarAgarrar, 0, 0, tercio3 + 200), VSC, zSin, ToolActual, \WObj:= wobj0;
-            MovimientosAgarrar;
-            MoveL Offs(acercarAgarrar, 0, 0, tercio3 + 200), VCC, zCon, ToolActual, \WObj:= wobj0;
+            MoveJ Offs(agarrar, 0, 0, tercio3 + 200), VSC, zSin, ToolActual, \WObj:= wobj0;
+            MoveL Offs(agarrar, 0, 0, tercio1 + 100), VSC, zSin, ToolActual, \WObj:= wobj0;
+            !WaitDI REM_BOOL_GARRA_ABIERTA, 1; !Esperar confirmacion que garra este abierta
+            MovimientosAgarrar;                                                                                                           !IMPORTANTE, no se estan evaluando rangos de tamaño del pallet, se evaluan solo los booleanos
+            !WaitDI REM_BOOL_GARRA_CERRADA, 1; !Esperar confirmacion que garra esta cerrada
+            MoveL Offs(agarrar, 0, 0, tercio3 + 200), VCC, zCon, ToolActual, \WObj:= wobj0;
         ENDTEST
     ENDPROC
     
     PROC MovimientosAgarrar()                                                                                                            !Movimientos que corresponden a tomar las cajas y activacion de señales.
         MoveL agarrar, VSC, zSin, ToolActual, \WObj:= wobj0;
         WaitRob \ZeroSpeed;
-        !Activar señal
-        WaitTime 0.5;
+        SetGO ABB_INT_ESTADO_VACIO, 3;
+        WaitTime 2;
     ENDPROC
     
     PROC CalcularAlturas()
@@ -212,6 +237,7 @@ MODULE MainModule
             IF contadorCaja >= cajasTotales THEN    !Si el contador de caja es igual a las cajas totales quiere decir que ya termino la cama.
                 WaitRob\inpos;
                 Incr contadorCama;                  !Se incrementa contador de cama.
+                TOMAR := 1;
                 contadorCaja  := GInput (REM_PRODUCTO_INICIAL); !Se da retro del incremento de cama.
                 alturaActual := altoTarima + altoCaja * contadorCama; !Se calcula la altura actual 
             ELSE
@@ -239,13 +265,14 @@ MODULE MainModule
     ENDPROC
     
     PROC SeleccionOrientacionCama()
-        IF contadorCama MOD 2 = 0 THEN !Cuando la cama es par
-            wobjPr := WobjOrientacionCamaPar;
-        ELSEIF contadorCama MOD 2 > 0 THEN !Cuando la cama es impar
+!        IF contadorCama MOD 2 = 0 THEN !Cuando la cama es par
+!            wobjPr := WobjOrientacionCamaPar;
+!           !ToolActual := BoxUpPar;
+!        ELSEIF contadorCama MOD 2 > 0 THEN !Cuando la cama es impar
             wobjPr := WobjOrientacionCamaImpar;
-        ENDIF 
+!        ENDIF 
         
-!        TEST pallet 
+!       TEST pallet 
 !        CASE 1: IF contadorCama MOD 2 = 0 THEN !Cuando la cama es par
 !                wobjPr := WobjOrientacionCamaPar;
 !                ELSEIF contadorCama MOD 2 > 0 THEN !Cuando la cama es impar
@@ -264,9 +291,20 @@ MODULE MainModule
        MoveL Offs(dejar, posX, posY, zDejar + 250), VCC, zCon, ToolActual, \WObj:= wobjPr;
        MoveL Offs(dejar, posX, posY, zDejar), VCC, zCon, ToolActual, \WObj:= wobjPr;
        WaitRob \ZeroSpeed;
-       !Activar señal
-       WaitTime 0.5;
+       !WaitDI REM_BOOL_GARRA_CERRADA, 1; !Esperar confirmacion que garra esta cerrada
+       IF giro = 1 THEN 
+       SetGO ABB_INT_ESTADO_VACIO, 0;
+       ELSEIF giro = 0 THEN
+           SetGO ABB_INT_ESTADO_VACIO, 1;
+       ENDIF
+       WaitTime 1.5;
+       !WaitDI REM_BOOL_GARRA_ABIERTA, 1; !Esperar confirmacion que garra esta abierta
        MoveL Offs(dejar, posX, posY, zDejar + 250), VSC, zSin, ToolActual, \WObj:= wobjPr;
+       IF ABB_INT_ESTADO_VACIO <> 0 THEN
+           TOMAR := 0;
+       ELSE
+           TOMAR := 1;
+       ENDIF
     ENDPROC
         
     PROC ReiniciarVariables()
@@ -291,6 +329,9 @@ MODULE MainModule
         SetGO ABB_CONTADOR_CAMAS, contadorCama;
         contadorCaja  := GInput (REM_PRODUCTO_INICIAL);
         SetGO ABB_CONTADOR_PRODUCTO, contadorCaja;
+        SetGO ABB_INT_ESTADO_VACIO, 0;
+        TOMAR := 1;
+        
         
         !Reinicio de Wobj
         WobjOrientacionCamaPar   := [FALSE, TRUE, "", [[0, 0, 0], [0,0,1,0]], [[0,0,0],[1,0,0,0]]];
@@ -298,7 +339,14 @@ MODULE MainModule
     ENDPROC
     
     PROC FinalizarPaletizado()
-        MoveJ Home, VSC, zSin, BoxUp, \WObj:= wobj0;
+        MoveJ Home1, VSC, zSin, ToolActual, \WObj:= wobj0;
         ReiniciarVariables;
     ENDPROC
+    
+    PROC pruebaing()
+        MoveL p30, V2000, fine, BoxUp, \WObj:= wobj0;
+        MoveL p40, V2000, fine, BoxUp, \WObj:= wobj0;
+    ENDPROC
+    
+    
 ENDMODULE

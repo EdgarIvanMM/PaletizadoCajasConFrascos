@@ -2,11 +2,6 @@
 <!--Comments: Settings for the FlexPendant.-->
 <FP>
   <USER name="">
-    <DATA id="ViewInManFull">
-      <PROP name="text" value="PARAM_TXT_VIEWINMANFULL" />
-      <PROP name="dll" value="" />
-      <PROP name="type" value="" />
-    </DATA>
     <DATA id="ViewInAuto">
       <PROP name="text" value="PARAM_TXT_VIEWINAUTO" />
       <PROP name="dll" value="TpsViewProductionWnd.dll" />
@@ -15,6 +10,9 @@
     <DATA id="IO View">
       <PROP name="Configurations file" value="/hd0a/4600-802877/INTERNAL/FPConfigurations.xml" />
       <PROP name="Signal view layout" value="Default" />
+    </DATA>
+    <DATA id="CtrlPnl Configuration">
+      <PROP name="LASTPATH" value="/hd0a/" />
     </DATA>
     <DATA id="UASViewLevel">
       <PROP name="text" value="PARAM_TXT_UASVIEWLEVEL" />
@@ -31,9 +29,6 @@
       <PROP name="text" value="PARAM_TXT_VIEWINMANUAL" />
       <PROP name="dll" value="" />
       <PROP name="type" value="" />
-    </DATA>
-    <DATA id="Backup Restore">
-      <PROP name="LastPath" value="/USB/" />
     </DATA>
     <DATA id="Programmable Key_2">
       <PROP name="type" value="Output" />
@@ -54,11 +49,15 @@
     <DATA id="ABB.Robotics.Tps.FileExplorer.TpsViewFileExplorer">
       <PROP name="LASTPATH" value="/hd0a/4600-802877/HOME/" />
     </DATA>
+    <DATA id="UserSettings">
+      <PROP name="RapidEditorFontIndex" value="5" />
+      <PROP name="LoadFileFilterIndex" value="1" />
+    </DATA>
     <DATA id="Show">
       <PROP name="default" value="CtrlName" />
     </DATA>
-    <DATA id="CtrlPnl Configuration">
-      <PROP name="LASTPATH" value="/hd0a/" />
+    <DATA id="Backup Restore">
+      <PROP name="LastPath" value="/USB/" />
     </DATA>
     <DATA id="ShowConfig">
       <PROP name="filter" value="" />
@@ -98,7 +97,7 @@
       <PROP name="type" value="Output" />
       <PROP name="allowInAuto" value="No" />
       <PROP name="pressed" value="SetTo0" />
-      <PROP name="target" value="Local_IO_0_DO1" />
+      <PROP name="target" value="ABB_ABRIR_GARRA" />
     </DATA>
     <DATA id="Programmable Key_4">
       <PROP name="type" value="Output" />
@@ -106,9 +105,10 @@
       <PROP name="pressed" value="SetTo0" />
       <PROP name="target" value="Local_IO_0_DO1" />
     </DATA>
-    <DATA id="UserSettings">
-      <PROP name="RapidEditorFontIndex" value="5" />
-      <PROP name="LoadFileFilterIndex" value="1" />
+    <DATA id="ViewInManFull">
+      <PROP name="text" value="PARAM_TXT_VIEWINMANFULL" />
+      <PROP name="dll" value="" />
+      <PROP name="type" value="" />
     </DATA>
   </USER>
 </FP>
