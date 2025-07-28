@@ -12,7 +12,7 @@
       <PROP name="Signal view layout" value="Default" />
     </DATA>
     <DATA id="CtrlPnl Configuration">
-      <PROP name="LASTPATH" value="/hd0a/" />
+      <PROP name="LASTPATH" value="/hd0a" />
     </DATA>
     <DATA id="UASViewLevel">
       <PROP name="text" value="PARAM_TXT_UASVIEWLEVEL" />
