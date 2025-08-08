@@ -1,5 +1,20 @@
 MODULE MainModule
     
+! Proyecto: Sistema de Paletizado CATOEX | TIA ROBOTICS.
+
+! Historial de modificaciones:
+! Fecha       | Ingeniero          | Descripción
+! ------------|--------------------|-------------------------------------------------------------------------------------
+! 2025-08-08  | Ivan Martinez      | Se quito rutina TRAP, en su lugar se agrego instruccion SearchL (para tomar carton)
+! 0000-00-00  | ?????????          | 
+! 0000-00-00  | ?????????          | 
+! 0000-00-00  | ?????????          | 
+! -----------------------------------------------------------------------------------------------------------------------    
+!
+! Proyecto en GitGub: https://github.com/EdgarIvanMM/PaletizadoCajasConFrascos
+!
+! NOTA: REGISTRAR TODO CAMBIO REALIZADO PARA MANTENER TRAZABILIDAD.
+
     !WOBJ
     PERS wobjdata wobjPr; !Variable de wobj que guara el wobj a utilizar (izquierda o derecha)
     PERS wobjdata WobjOrientacionCamaImpar := [FALSE, TRUE, "", [[490, -1850, -670], [1,-5.99539E-06,-9.11397E-07,1.37035E-05]], [[0,0,0],[1,0,0,0]]]; !Corresponde a tarima IZQUIERDA. (Viendo el robot desde la vista frontal)
@@ -100,10 +115,7 @@ MODULE MainModule
     VAR string txtCajaSinPeso;
     VAR string txtPesoCaja;
     VAR string txtToolSelec;
-    
-    !VARIABLES PARA RUTINAS TRAP
-    VAR intnum intID_Sensor;
-    
+
 !------------------------------------------------------------------------
                                                                          !------------------------------------------------------------------------
     PROC Main()
@@ -112,7 +124,7 @@ MODULE MainModule
         !ActualizarParametros;                                                    !Actualiza parametros de velocidad y carga dependiendo dimensiones y peso de caja.
         MoveJ home, VSC, zSin, ToolActual, \WObj:= wobj0;
         WHILE contadorCama <= camaTotales DO                                      !Correr proceso siempre que no se hayan completado las camas totales indicadas. 
-            !PonerCarton;                                                          
+            PonerCarton;                                                          
             TomarCaja;
             Paletizar;
         ENDWHILE
@@ -198,10 +210,7 @@ MODULE MainModule
             MoveJ Offs(home, 0, 0, 0), VIC, zSin, ToolActual, \WObj:= wobj0;    
             MoveJ salidaCarton,  VIC, zSin, ToolActual, \WObj:=wobjMesaCarton;
             MoveL llegadaCarton, VIC, zSin, ToolActual, \WObj:=wobjMesaCarton;
-            !MoveL tomarCarton,   VBC, zSin, ToolActual, \WObj:=wobjMesaCarton;
-            !(Hasta que sensor detecte que ya agarro carton)
-            PRUEBATRAPITO;
-            !MoveL llegadaCarton,  VIC, zSin, ToolActual, \WObj:=wobjMesaCarton;
+            SearchCarton;
             MoveL salidaCarton,  VIC, zSin, ToolActual, \WObj:=wobjMesaCarton;
             MoveJ Offs(home, 0, 0, 0), VSC, zSin, ToolActual, \WObj:= wobj0;
             DejarCarton;
@@ -209,10 +218,7 @@ MODULE MainModule
             MoveJ Offs(home, 0, 0, alturaActual + 400), VIC, zSin, ToolActual, \WObj:= wobj0;   !Se considera altura actual del paletizado + 400mm (40cm) para evitar colision con paletizado.
             MoveJ Offs(salidaCarton, 0, 0, alturaActual + 400),  VIC, zSin, ToolActual, \WObj:= wobjMesaCarton;
             MoveL Offs(llegadaCarton, 0, 0, alturaActual + 400), VIC, zSin, ToolActual, \WObj:= wobjMesaCarton;
-            !MoveL tomarCarton, VBC, zSin, ToolActual, \WObj:=wobjMesaCarton;
-            !(Hasta que sensor detecte que ya agarro carton)
-            !MoveL Offs(llegadaCarton, 0, 0, alturaActual + 400),  VIC, zSin, ToolActual, \WObj:= wobjMesaCarton;
-            PRUEBATRAPITO;
+            SearchCarton;
             MoveJ Offs(salidaCarton, 0, 0, alturaActual + 400),  VIC, zSin, ToolActual, \WObj:= wobjMesaCarton;
             MoveJ Offs(home, 0, 0, alturaActual + 400), VIC, zSin, ToolActual, \WObj:= wobj0;
             DejarCarton;
@@ -223,19 +229,15 @@ MODULE MainModule
          IF alturaActual < 1140 THEN                                               !Si la altura actual del paletizado es MENOR que la altura de Z de salidaCarton, tomar en consideracion alturas normales de los puntos.
             MoveJ salidaCarton,  VSC, zSin, ToolActual, \WObj:=wobjMesaCarton;
             MoveL llegadaCarton, VSC, zSin, ToolActual, \WObj:=wobjMesaCarton;
-            MoveL tomarCarton,   VSC, zSin, ToolActual, \WObj:=wobjMesaCarton;
-            !(Hasta que sensor detecte que ya agarro carton)
-            MoveL salidaCarton,  VSC, zSin, ToolActual, \WObj:=wobjMesaCarton;
+            SearchCarton;
             MoveL salidaCarton,  VSC, zSin, ToolActual, \WObj:=wobjMesaCarton;
             DejarCarton;
         ELSEIF alturaActual > 818.13 THEN                                          !Si la altura actual del paletizado es MAYOR que la altura de Z de salidaCarton, tomar en consideracion alturas normales de los puntos.
-            MoveJ Offs(home, 0, 0, alturaActual + 400), VSC, zSin, ToolActual, \WObj:= wobj0; !Se considera altura actual del paletizado + 400mm (40cm) para evitar colision con paletizado.
+            !MoveJ Offs(home, 0, 0, alturaActual + 400), VSC, zSin, ToolActual, \WObj:= wobj0; !Se considera altura actual del paletizado + 400mm (40cm) para evitar colision con paletizado.
             MoveJ Offs(salidaCarton, 0, 0, alturaActual + 400),  VSC, zSin, ToolActual, \WObj:= wobjMesaCarton;
             MoveL Offs(llegadaCarton, 0, 0, alturaActual + 400), VSC, zSin, ToolActual, \WObj:= wobjMesaCarton;
-            MoveL tomarCarton, VSC, zSin, ToolActual, \WObj:=wobjMesaCarton;
-            !(Hasta que sensor detecte que ya agarro carton)
+            SearchCarton;
             MoveL Offs(salidaCarton, 0, 0, alturaActual + 400),  VSC, zSin, ToolActual, \WObj:= wobjMesaCarton;
-            MoveJ Offs(salidaCarton, 0, 0, alturaActual + 400),  VSC, zSin, ToolActual, \WObj:= wobjMesaCarton;
             DejarCarton;
         ENDIF         
     ENDPROC
@@ -250,7 +252,6 @@ MODULE MainModule
     ENDPROC
       
     PROC TomarCaja()
-        !WaitDI REM_CARTON, 1;
         !Recibe coordenadas en "x" y "y" de PLC para tomar cajas.
         xConveyor := GInput(REM_X_BANDA); 
         yConveyor := GInput(REM_Y_BANDA); 
@@ -276,8 +277,7 @@ MODULE MainModule
     ENDPROC
     
     PROC CalcularAlturas()
-        alturaTotalPallet := (altoCaja*camaTotales) + altoTarima;                                                                                                           !Calcula la altura total del pallet, es decir, altura que tendra el pallet cuando termine las camas totales.
-        !zDejar := (altoCaja*contadorCama) + altoTarima;                                                                                                                     !Calcula la Z del paletizado todo momento.                                                                                                                
+        alturaTotalPallet := (altoCaja*camaTotales) + altoTarima;                                                                                                           !Calcula la altura total del pallet, es decir, altura que tendra el pallet cuando termine las camas totales.                                                                                                                    !Calcula la Z del paletizado todo momento.                                                                                                                
         tercio1 := alturaTotalPallet / 3;                                                                                                                                   !Se divide el total del pallet en 3 para los calculos de salida
         tercio2 := tercio1 * 2;                                                                                                                                             !Tercio 1 corresponde a primera parte del pallet. Tercio 2 a la segunda y Tercio 3 a la parte mas alta del
         tercio3 := tercio1 * 3;                                                                                                                                             !..pallet                            
@@ -289,16 +289,6 @@ MODULE MainModule
             LeerPosiciones;                         !Lee las posiciones "x" y "y" para el dejado de la caja.
             SeleccionGiro;                          !Selecciona el giro de la posicion.
             MovimientosDejar;                       !Hace movimientos para dejar la caja.
-            !WaitRob\inpos;                         !Espera que el robot este en la posicion antes de mandar cualquier retro a PLC, para evitar desincronizacion.
-            !IF contadorCaja > cajasTotales THEN     !Si el contador de caja es igual a las cajas totales quiere decir que ya termino la cama.
-                !WaitRob\inpos;
-                !Incr contadorCama;                  !Se incrementa contador de cama.
-                !PulseDO ABB_AVISO_CAMBIO_CAMA;      !Avisar a PLC que se incremento cama
-                !contadorCaja  := GInput (REM_PRODUCTO_INICIAL); !Se da retro del incremento de cama.
-                !alturaActual := altoTarima + altoCaja * contadorCama; !Se calcula la altura actual 
-            !ELSE
-     !           Incr contadorCaja;
-            !ENDIF
         ENDIF
     ENDPROC
     
@@ -327,8 +317,6 @@ MODULE MainModule
         ELSEIF pallet = 1 THEN
             wobjPr := IzquierdawobjCamaImpar;
         ENDIF
-        
-        !wobjPr := IzquierdawobjCamaImpar;
     ENDPROC
     
     PROC MovimientosDejar()
@@ -378,29 +366,45 @@ MODULE MainModule
         !TOMAR := 1;
     ENDPROC
     
-    PROC FinalizarPaletizado()
+    PROC FinalizarPaletizado()                           
         MoveJ home, VSC, zSin, ToolActual, \WObj:= wobj0;
         !Avisar a PLC que termino proceso de paletizado (izquierda o derecha)
         ReiniciarVariables;
     ENDPROC
+       
+    !PROC encargado de la logica para tomar carton, baja con la instruccion SearchL, para que se detenga en cunto reciba la señal de que ya agarro el carton.
+    PROC SearchCarton()
+        VAR string mensaje;
+        VAR robtarget puntoInterrupcion;
+
+        !Ir al inicio de la trayectoria de búsqueda
+        MoveL llegadaCarton, v500, fine, BoxUp \WObj:=wobjMesaCarton;
+
+        SearchL \Stop, REM_SENSOR_TOMO_CARTON, puntoInterrupcion, tomarCarton, v100, BoxUp\WObj:=wobjMesaCarton; !Instruccion para bajar a tomarCarton hasta que se active REM_SENSOR_TOMO_CARTON.
     
-    TRAP DetectoCarton
-        TPWrite "Señal de cartón detectada. Deteniendo movimiento...";
-        StopMove;
-        StorePath;
-        MoveJ llegadaCarton, v1000, z50, BoxUp \WObj:=wobjMesaCarton;
-        StartMove; !yo
-        RETURN; 
-    ENDTRAP
-    
-    PROC PRUEBATRAPITO()
-        CONNECT intID_Sensor WITH DetectoCarton; 
-        ISignalDI REM_SENSOR_TOMO_CARTON, 1, intID_Sensor; 
-        IEnable; !Habilita todas las interrupciones activas.
-        MoveL tomarCarton, V50, zSin, BoxUp, \WObj:= wobjMesaCarton; ! Realiza el movimiento lineal descendente hacia la mesa de tomado de cartón
-        !Después de que el movimiento se haya completado o haya sido interrumpido,
-        IDelete intID_Sensor; 
-        TPWrite "Movimiento lineal completado o interrumpido."; 
+        ERROR
+            !mensaje := "Código de error: " + ValToStr(ERRNO);
+            !TPWrite mensaje;
+
+            IF ERRNO = 1072 THEN  ! ERR_WHLSEARCH
+                TPWrite "No se detectó el cartón. Reposicionando.";
+                MoveL Offs(llegadaCarton, 0, 0, 0), v500, fine, BoxUp \WObj:=wobjMesaCarton;
+                TPWrite "Coloque cartón en la mesa y presione START para reintentar la búsqueda.";
+                STOP;  !Pausa el programa.
+                RETRY; !Espera que operador reanude el programa.
+            ELSE
+                TPWrite "Error inesperado: "; !Ocurrio un error no conocido
+                STOP;                         !Parar el programa y revisar que sucedio.
+            ENDIF
+            
+        TPWrite "Cartón detectado.";
+        MoveL llegadaCarton, v500, fine, tool0 \WObj:=wobj0;
     ENDPROC 
 
 ENDMODULE
+
+!                                                                   © 2025 TIA ROBOTICS S.A. de C.V. 
+!                                                                    Todos los derechos reservados.
+!                                                     Este código es confidencial y de uso exclusivo de TIA ROBOTICS S.A. de C.V.
+!                                              Queda prohibida su copia, distribución o modificación sin autorización expresa por escrito.
+!                                                           https://tiasa.org.mx | @tia-robotics.com |
